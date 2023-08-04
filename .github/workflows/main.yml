@@ -1,0 +1,16 @@
+name: Create Release
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    uses: batinicaz/gha/.github/workflows/release.yml@f95e2fd11d902f8e6b6eac6ff85ced89eb6d6fc2 # ratchet:batinicaz/gha/.github/workflows/release.yml@latest
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_INSTALL_ID: ${{ secrets.APP_INSTALL_ID }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
