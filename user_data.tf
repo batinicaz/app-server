@@ -43,7 +43,7 @@ data "cloudinit_config" "bootstrap" {
         "tailscale up --authkey ${tailscale_tailnet_key.freshrss.key} --ssh",
         "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
         "systemctl restart cron",
-        "freshrss_restore",
+        "freshrss_restore --latest",
         "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
         "systemctl restart nitter",
       ]
