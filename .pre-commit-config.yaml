@@ -4,8 +4,6 @@ repos:
     hooks:
       - id: terraform-docs-go
         args: ["markdown", "table", "--output-file", "README.md", "./"]
-      - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "./modules/vcn"]
 
   - repo: https://github.com/gruntwork-io/pre-commit
     rev: v0.1.22
@@ -15,6 +13,8 @@ repos:
       - id: terraform-validate
 
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 2.3.314
+    rev: 2.3.356
     hooks:
       - id: checkov
+        args:
+          -  --skip-check=CKV_OCI_21 # Intentionally using stateful rules
