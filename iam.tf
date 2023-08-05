@@ -49,3 +49,21 @@ resource "oci_identity_policy" "backup_bucket_can_use_key" {
     "terraform.name" = "ObjectStorage-Use-FreshRSS-Backups-Key"
   })
 }
+
+resource "oci_identity_policy" "delete_old_backups" {
+  compartment_id = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
+  description    = "Allow the object storage service to delete old FreshRSS backups"
+  name           = "ObjectStorage-Delete-FreshRSS-Backups"
+
+  statements = [
+    <<-POLICY
+      Allow service objectstorage-${var.oci_region}
+      to manage object-family in compartment ${data.oci_identity_compartment.terraform.name}
+      where target.bucket.name='${oci_objectstorage_bucket.backups.name}'
+    POLICY
+  ]
+
+  defined_tags = merge(local.default_tags, {
+    "terraform.name" = "ObjectStorage-Delete-FreshRSS-Backups"
+  })
+}

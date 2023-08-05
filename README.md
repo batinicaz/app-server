@@ -52,6 +52,7 @@ No modules.
 | [oci_identity_dynamic_group.freshrss](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_dynamic_group) | resource |
 | [oci_identity_policy.access_backup_bucket](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_identity_policy.backup_bucket_can_use_key](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
+| [oci_identity_policy.delete_old_backups](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/identity_policy) | resource |
 | [oci_kms_key.backups](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/kms_key) | resource |
 | [oci_load_balancer.freshrss](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/load_balancer) | resource |
 | [oci_load_balancer_backend.services](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/load_balancer_backend) | resource |
