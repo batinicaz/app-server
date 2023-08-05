@@ -55,9 +55,10 @@ resource "oci_objectstorage_object_lifecycle_policy" "delete_old_backups" {
     target      = "objects"
     time_amount = 7
     time_unit   = "DAYS"
-
-    object_name_filter {
-      inclusion_prefixes = [""] // Include all objects
-    }
   }
+
+  depends_on = [
+    // Can not add lifecycle rule without service having permission
+    oci_identity_policy.delete_old_backups
+  ]
 }
