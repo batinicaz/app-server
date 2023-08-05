@@ -30,7 +30,7 @@ resource "oci_objectstorage_bucket" "backups" {
   })
 
   retention_rules {
-    display_name = "keep-backups-for-7-days"
+    display_name = "ensure-keep-backups-for-7-days"
     duration {
       time_amount = 7
       time_unit   = "DAYS"
@@ -42,4 +42,22 @@ resource "oci_objectstorage_bucket" "backups" {
     // Can not create bucket until object store has permission to use the key
     oci_identity_policy.backup_bucket_can_use_key
   ]
+}
+
+resource "oci_objectstorage_object_lifecycle_policy" "delete_old_backups" {
+  namespace = oci_objectstorage_bucket.backups.namespace
+  bucket    = oci_objectstorage_bucket.backups.name
+
+  rules {
+    action      = "DELETE"
+    is_enabled  = true
+    name        = "delete-old-backups"
+    target      = "objects"
+    time_amount = 7
+    time_unit   = "DAYS"
+
+    object_name_filter {
+      inclusion_prefixes = [""] // Include all objects
+    }
+  }
 }
