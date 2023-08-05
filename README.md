@@ -60,6 +60,7 @@ No modules.
 | [oci_load_balancer_listener.services](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/load_balancer_listener) | resource |
 | [oci_load_balancer_load_balancer_routing_policy.by_host](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/load_balancer_load_balancer_routing_policy) | resource |
 | [oci_objectstorage_bucket.backups](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/objectstorage_bucket) | resource |
+| [oci_objectstorage_object_lifecycle_policy.delete_old_backups](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/objectstorage_object_lifecycle_policy) | resource |
 | [tailscale_tailnet_key.freshrss](https://registry.terraform.io/providers/tailscale/tailscale/latest/docs/resources/tailnet_key) | resource |
 | [tls_cert_request.freshrss](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/cert_request) | resource |
 | [cloudflare_ip_ranges.current](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/ip_ranges) | data source |
