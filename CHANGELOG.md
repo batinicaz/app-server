@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/batinicaz/freshrss/compare/v1.2.0...v1.2.1) (2023-08-05)
+
+
+### Bug Fixes
+
+* add permissions to create lifecycle rule ([f25b6ed](https://github.com/batinicaz/freshrss/commit/f25b6eda39360c2420feb82ab2df57704ae06982))
+
 ## [1.2.0](https://github.com/batinicaz/freshrss/compare/v1.1.0...v1.2.0) (2023-08-05)
 
 
