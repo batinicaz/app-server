@@ -11,16 +11,12 @@ resource "null_resource" "regenerate_key" {
 }
 
 resource "tailscale_tailnet_key" "freshrss" {
-  ephemeral     = true
-  expiry        = 3600 // 1 hour
-  preauthorized = true
+  ephemeral = true
+  expiry    = 3600 // 1 hour
+  // Meaningless ternary to link with null resource for key re-creation
+  preauthorized = length(null_resource.regenerate_key.id) > 0 ? true : true
   reusable      = false
   tags          = ["tag:OCI"]
-
-  depends_on = [
-    // Want to use a one time use key so need to generate a new key if the instance is to be rebuilt
-    null_resource.regenerate_key
-  ]
 }
 
 data "cloudinit_config" "bootstrap" {
