@@ -45,6 +45,7 @@ data "cloudinit_config" "bootstrap" {
         "systemctl restart cron",
         "freshrss_restore --latest",
         "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
+        "sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
         "systemctl restart nitter",
       ]
     })
