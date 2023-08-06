@@ -1,6 +1,7 @@
 resource "oci_core_instance" "freshrss" {
   availability_domain                 = var.availability_domain
   compartment_id                      = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
+  display_name                        = "freshrss-production"
   is_pv_encryption_in_transit_enabled = true
   shape                               = var.instance_shape
 

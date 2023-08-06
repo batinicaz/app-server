@@ -11,16 +11,12 @@ resource "null_resource" "regenerate_key" {
 }
 
 resource "tailscale_tailnet_key" "freshrss" {
-  ephemeral     = true
-  expiry        = 3600 // 1 hour
-  preauthorized = true
+  ephemeral = true
+  expiry    = 3600 // 1 hour
+  // Meaningless ternary to link with null resource for key re-creation
+  preauthorized = length(null_resource.regenerate_key.id) > 0 ? true : true
   reusable      = false
   tags          = ["tag:OCI"]
-
-  depends_on = [
-    // Want to use a one time use key so need to generate a new key if the instance is to be rebuilt
-    null_resource.regenerate_key
-  ]
 }
 
 data "cloudinit_config" "bootstrap" {
@@ -34,7 +30,7 @@ data "cloudinit_config" "bootstrap" {
       write_files = [
         {
           path : "/etc/cron.d/sync-backups",
-          content : "30 1 * * * root oci os object bulk-upload --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477 \n",
+          content : "30 1 * * * root oci os object bulk-upload --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --src-dir /backups --auth instance_principal --no-overwrite && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477\n",
           permissions : "0644",
           owner : "root:root"
         }
@@ -44,7 +40,10 @@ data "cloudinit_config" "bootstrap" {
         "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
         "systemctl restart cron",
         "freshrss_restore --latest",
+        "sed -i 's#server_name freshrss;#server_name ${local.services["freshrss"].fqdn};#' /etc/nginx/conf.d/freshrss.conf",
+        "systemctl restart nginx",
         "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
+        "sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
         "systemctl restart nitter",
       ]
     })

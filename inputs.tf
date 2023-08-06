@@ -27,10 +27,7 @@ variable "services" {
     port      = number // The port the service is running on
   }))
   validation {
-    condition = alltrue([
-      for service in keys(var.services) :
-      contains(["freshrss", "nitter"], service)
-    ])
+    condition     = length(setintersection(["freshrss", "nitter"], toset(keys(var.services)))) == 2
     error_message = "The only services supported are freshrss and nitter"
   }
 }
