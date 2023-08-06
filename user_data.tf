@@ -40,6 +40,8 @@ data "cloudinit_config" "bootstrap" {
         "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
         "systemctl restart cron",
         "freshrss_restore --latest",
+        "sed -i 's#server_name freshrss;#server_name ${local.services["freshrss"].fqdn};#' /etc/nginx/conf.d/freshrss.conf",
+        "systemctl restart nginx",
         "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
         "sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
         "systemctl restart nitter",
