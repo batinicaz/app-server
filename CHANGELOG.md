@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/batinicaz/freshrss/compare/v1.2.1...v1.3.0) (2023-08-06)
+
+
+### Features
+
+* set freshrss server_name on boot ([d4b6175](https://github.com/batinicaz/freshrss/commit/d4b6175e234eab2036bc4734972168b5972f1880))
+* support additional services so long as mandatory services are included ([f8a18f4](https://github.com/batinicaz/freshrss/commit/f8a18f4e7c0aeff80595db9028ebfdcfe6c2b692))
+
+
+### Bug Fixes
+
+* backup sync task not running ([eedb46c](https://github.com/batinicaz/freshrss/commit/eedb46cbcfbb51730f37c2f3f2a3d9993cd9018d))
+* regenerate auth key when instance rebuilt ([f5c0cf3](https://github.com/batinicaz/freshrss/commit/f5c0cf32c09c4ed59978aef01f061207bd8476b0))
+* set correct fqdn for twitter replacements in nitter config ([a9ef7d2](https://github.com/batinicaz/freshrss/commit/a9ef7d27489ff197cf08ddc71f537547ef28222c))
+* set display name of instance ([e33bad9](https://github.com/batinicaz/freshrss/commit/e33bad94e91d380f432bdb5dff9d31026e69506e))
+
 ### [1.2.1](https://github.com/batinicaz/freshrss/compare/v1.2.0...v1.2.1) (2023-08-05)
 
 
