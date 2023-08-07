@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/batinicaz/freshrss/compare/v1.3.2...v1.3.3) (2023-08-07)
+
+
+### Bug Fixes
+
+* add protocol to base_url to ensure correct redirects ([d4a5be0](https://github.com/batinicaz/freshrss/commit/d4a5be00871699653de602d2e3e458e3166d952e))
+
 ### [1.3.2](https://github.com/batinicaz/freshrss/compare/v1.3.1...v1.3.2) (2023-08-07)
 
 
