@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/batinicaz/freshrss/compare/v1.3.0...v1.3.1) (2023-08-07)
+
+
+### Bug Fixes
+
+* move to ARM based instance as free tier includes more RAM ([333ae91](https://github.com/batinicaz/freshrss/commit/333ae911d63f9b032d9c74fe2c5a6adc96970af9))
+
 ## [1.3.0](https://github.com/batinicaz/freshrss/compare/v1.2.1...v1.3.0) (2023-08-06)
 
 
