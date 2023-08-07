@@ -48,7 +48,7 @@ locals {
     "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
     "systemctl restart cron",
     "freshrss_restore --latest",
-    "cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url ${local.services["freshrss"].fqdn} --title ${local.services["freshrss"].subdomain}",
+    "cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url https://${local.services["freshrss"].fqdn} --title ${local.services["freshrss"].subdomain}",
     "sed -i 's#server_name freshrss;#server_name ${local.services["freshrss"].fqdn};#' /etc/nginx/conf.d/freshrss.conf",
     "systemctl restart nginx",
     "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
