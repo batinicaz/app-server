@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/batinicaz/freshrss/compare/v1.3.1...v1.3.2) (2023-08-07)
+
+
+### Bug Fixes
+
+* set base_url for freshrss on boot ([894219a](https://github.com/batinicaz/freshrss/commit/894219a3785e225dfe1b3e27b7461273f2104ffc))
+
 ### [1.3.1](https://github.com/batinicaz/freshrss/compare/v1.3.0...v1.3.1) (2023-08-07)
 
 
