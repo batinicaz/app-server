@@ -7,6 +7,7 @@ resource "null_resource" "regenerate_key" {
     image_id            = data.hcp_packer_image.freshrss_latest.cloud_image_id
     shape               = var.instance_shape
     subnet_id           = data.terraform_remote_state.oci_core.outputs.core_vcn_subnets["public"]
+    run_cmds            = base64sha256(join(";", local.startup_config))
   }
 }
 
@@ -35,17 +36,23 @@ data "cloudinit_config" "bootstrap" {
           owner : "root:root"
         }
       ],
-      runcmd = [
+      runcmd = concat([
         "tailscale up --authkey ${tailscale_tailnet_key.freshrss.key} --ssh",
-        "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
-        "systemctl restart cron",
-        "freshrss_restore --latest",
-        "sed -i 's#server_name freshrss;#server_name ${local.services["freshrss"].fqdn};#' /etc/nginx/conf.d/freshrss.conf",
-        "systemctl restart nginx",
-        "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
-        "sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
-        "systemctl restart nitter",
-      ]
+      ], local.startup_config)
     })
   }
+}
+
+locals {
+  startup_config = [
+    "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
+    "systemctl restart cron",
+    "freshrss_restore --latest",
+    "cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url ${local.services["freshrss"].fqdn} --title ${local.services["freshrss"].subdomain}",
+    "sed -i 's#server_name freshrss;#server_name ${local.services["freshrss"].fqdn};#' /etc/nginx/conf.d/freshrss.conf",
+    "systemctl restart nginx",
+    "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
+    "sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
+    "systemctl restart nitter",
+  ]
 }
