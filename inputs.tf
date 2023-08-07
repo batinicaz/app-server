@@ -10,8 +10,20 @@ variable "domain_name" {
 
 variable "instance_shape" {
   type        = string
-  default     = "VM.Standard.E2.1.Micro"
-  description = "Instance type to use, default is the always free domain x86 option."
+  default     = "VM.Standard.A1.Flex"
+  description = "Instance type to use, default is the always free domain ARM option."
+}
+
+variable "instance_ocpus" {
+  type        = number
+  description = "The number of Oracle CPU's to allocate to the instance"
+  default     = 1
+}
+
+variable "instance_ram" {
+  type        = number
+  description = "The total amount of RAM (in gigabytes) to allocate to the instance"
+  default     = 6
 }
 
 variable "lb_bandwidth" {

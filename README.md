@@ -80,7 +80,9 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | Availability domain where instance will be launched. | `string` | n/a | yes |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | The CloudFlare managed domain name to work under | `string` | n/a | yes |
-| <a name="input_instance_shape"></a> [instance\_shape](#input\_instance\_shape) | Instance type to use, default is the always free domain x86 option. | `string` | `"VM.Standard.E2.1.Micro"` | no |
+| <a name="input_instance_ocpus"></a> [instance\_ocpus](#input\_instance\_ocpus) | The number of Oracle CPU's to allocate to the instance | `number` | `1` | no |
+| <a name="input_instance_ram"></a> [instance\_ram](#input\_instance\_ram) | The total amount of RAM (in gigabytes) to allocate to the instance | `number` | `6` | no |
+| <a name="input_instance_shape"></a> [instance\_shape](#input\_instance\_shape) | Instance type to use, default is the always free domain ARM option. | `string` | `"VM.Standard.A1.Flex"` | no |
 | <a name="input_lb_bandwidth"></a> [lb\_bandwidth](#input\_lb\_bandwidth) | Bandwidth in Mbps. Default is the always free option. | `number` | `10` | no |
 | <a name="input_oci_fingerprint"></a> [oci\_fingerprint](#input\_oci\_fingerprint) | The fingerprint of the key used to authenticate with OCI | `string` | n/a | yes |
 | <a name="input_oci_private_key"></a> [oci\_private\_key](#input\_oci\_private\_key) | The private key to authenticate with OCI | `string` | n/a | yes |

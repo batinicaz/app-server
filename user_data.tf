@@ -30,7 +30,7 @@ data "cloudinit_config" "bootstrap" {
       write_files = [
         {
           path : "/etc/cron.d/sync-backups",
-          content : "30 1 * * * root oci os object bulk-upload --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --src-dir /backups --auth instance_principal --no-overwrite && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477\n",
+          content : "30 1 * * * root oci os object bulk-upload --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name '${oci_objectstorage_bucket.backups.name}' --src-dir /backups --auth instance_principal --no-overwrite && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477'\n",
           permissions : "0644",
           owner : "root:root"
         }

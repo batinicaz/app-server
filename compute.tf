@@ -28,6 +28,11 @@ resource "oci_core_instance" "freshrss" {
     user_data = data.cloudinit_config.bootstrap.rendered
   }
 
+  shape_config {
+    ocpus         = var.instance_ocpus
+    memory_in_gbs = var.instance_ram
+  }
+
   source_details {
     source_id               = data.hcp_packer_image.freshrss_latest.cloud_image_id
     source_type             = "image"
