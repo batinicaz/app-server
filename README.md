@@ -89,7 +89,7 @@ No modules.
 | <a name="input_oci_region"></a> [oci\_region](#input\_oci\_region) | The region in which to create resources | `string` | n/a | yes |
 | <a name="input_oci_tenancy_id"></a> [oci\_tenancy\_id](#input\_oci\_tenancy\_id) | The tenancy id where to resources are to be created | `string` | n/a | yes |
 | <a name="input_oci_user_id"></a> [oci\_user\_id](#input\_oci\_user\_id) | The ID of user that terraform will use to create the resources | `string` | n/a | yes |
-| <a name="input_services"></a> [services](#input\_services) | The configuration of the different services running on the freshrss instance | <pre>map(object({<br>    subdomain = string // The subdomain to expose the service on<br>    port      = number // The port the service is running on<br>  }))</pre> | n/a | yes |
+| <a name="input_services"></a> [services](#input\_services) | The configuration of the different services running on the freshrss instance | <pre>map(object({<br>    port                = number                // The port the service is running on<br>    subdomain           = string                // The subdomain to expose the service on<br>    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory<br>  }))</pre> | n/a | yes |
 | <a name="input_tf_cloud_organisation"></a> [tf\_cloud\_organisation](#input\_tf\_cloud\_organisation) | The name of the TF cloud organisation | `string` | n/a | yes |
 
 ## Outputs
