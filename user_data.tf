@@ -44,15 +44,23 @@ data "cloudinit_config" "bootstrap" {
 }
 
 locals {
-  startup_config = [
+  nginx_restart_config = concat(
+    [
+      for service, config in local.services :
+      "sed -i 's#server_name ${service};#server_name ${config.fqdn};#' /etc/nginx/conf.d/${service}.conf" if config.update_nginx_config
+    ],
+    [
+      "systemctl restart nginx",
+    ]
+  )
+
+  startup_config = concat(local.nginx_restart_config, [
     "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
     "systemctl restart cron",
     "freshrss_restore --latest",
     "cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url https://${local.services["freshrss"].fqdn} --title ${local.services["freshrss"].subdomain}",
-    "sed -i 's#server_name freshrss;#server_name ${local.services["freshrss"].fqdn};#' /etc/nginx/conf.d/freshrss.conf",
-    "systemctl restart nginx",
     "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
     "sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
     "systemctl restart nitter",
-  ]
+  ])
 }

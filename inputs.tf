@@ -35,8 +35,9 @@ variable "lb_bandwidth" {
 variable "services" {
   description = "The configuration of the different services running on the freshrss instance"
   type = map(object({
-    subdomain = string // The subdomain to expose the service on
-    port      = number // The port the service is running on
+    port                = number                // The port the service is running on
+    subdomain           = string                // The subdomain to expose the service on
+    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory
   }))
   validation {
     condition     = length(setintersection(["freshrss", "nitter"], toset(keys(var.services)))) == 2
