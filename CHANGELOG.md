@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/batinicaz/freshrss/compare/v1.3.3...v1.4.0) (2023-08-11)
+
+
+### Features
+
+* support optionally updating nginx config for service ([95ea598](https://github.com/batinicaz/freshrss/commit/95ea598e34272873c1314204269e38f43b7803fe))
+
 ### [1.3.3](https://github.com/batinicaz/freshrss/compare/v1.3.2...v1.3.3) (2023-08-07)
 
 
