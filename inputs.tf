@@ -32,6 +32,12 @@ variable "lb_bandwidth" {
   default     = 10
 }
 
+variable "nitter_allowed_ips_dns" {
+  description = "A domain with A records for IP's that should be permitted to access Nitter over the internet"
+  type        = string
+  sensitive   = true
+}
+
 variable "services" {
   description = "The configuration of the different services running on the freshrss instance"
   type = map(object({
