@@ -12,6 +12,7 @@ Built on the image created in [freshrss-oci](https://github.com/batinicaz/freshr
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.5 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 4.0 |
 | <a name="requirement_cloudinit"></a> [cloudinit](#requirement\_cloudinit) | ~> 2.0 |
+| <a name="requirement_dns"></a> [dns](#requirement\_dns) | ~> 3.0 |
 | <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.68 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 5.0 |
@@ -24,6 +25,7 @@ Built on the image created in [freshrss-oci](https://github.com/batinicaz/freshr
 |------|---------|
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 4.0 |
 | <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | ~> 2.0 |
+| <a name="provider_dns"></a> [dns](#provider\_dns) | ~> 3.0 |
 | <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.68 |
 | <a name="provider_null"></a> [null](#provider\_null) | ~> 3.0 |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 5.0 |
@@ -41,6 +43,7 @@ No modules.
 |------|------|
 | [cloudflare_origin_ca_certificate.freshrss](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/origin_ca_certificate) | resource |
 | [cloudflare_record.services](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_ruleset.zone_level_waf](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/ruleset) | resource |
 | [null_resource.regenerate_key](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [oci_core_instance.freshrss](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance) | resource |
 | [oci_core_network_security_group.freshrss_instance](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_network_security_group) | resource |
@@ -68,6 +71,7 @@ No modules.
 | [cloudflare_origin_ca_root_certificate.ecc](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/origin_ca_root_certificate) | data source |
 | [cloudflare_zone.selected](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 | [cloudinit_config.bootstrap](https://registry.terraform.io/providers/cloudinit/latest/docs/data-sources/config) | data source |
+| [dns_a_record_set.allowed_access_to_nitter](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/a_record_set) | data source |
 | [hcp_packer_image.freshrss_latest](https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/data-sources/packer_image) | data source |
 | [hcp_vault_secrets_app.freshrss](https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/data-sources/vault_secrets_app) | data source |
 | [oci_identity_compartment.terraform](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_compartment) | data source |
@@ -84,6 +88,7 @@ No modules.
 | <a name="input_instance_ram"></a> [instance\_ram](#input\_instance\_ram) | The total amount of RAM (in gigabytes) to allocate to the instance | `number` | `6` | no |
 | <a name="input_instance_shape"></a> [instance\_shape](#input\_instance\_shape) | Instance type to use, default is the always free domain ARM option. | `string` | `"VM.Standard.A1.Flex"` | no |
 | <a name="input_lb_bandwidth"></a> [lb\_bandwidth](#input\_lb\_bandwidth) | Bandwidth in Mbps. Default is the always free option. | `number` | `10` | no |
+| <a name="input_nitter_allowed_ips_dns"></a> [nitter\_allowed\_ips\_dns](#input\_nitter\_allowed\_ips\_dns) | A domain with A records for IP's that should be permitted to access Nitter over the internet | `string` | n/a | yes |
 | <a name="input_oci_fingerprint"></a> [oci\_fingerprint](#input\_oci\_fingerprint) | The fingerprint of the key used to authenticate with OCI | `string` | n/a | yes |
 | <a name="input_oci_private_key"></a> [oci\_private\_key](#input\_oci\_private\_key) | The private key to authenticate with OCI | `string` | n/a | yes |
 | <a name="input_oci_region"></a> [oci\_region](#input\_oci\_region) | The region in which to create resources | `string` | n/a | yes |
