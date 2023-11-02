@@ -41,9 +41,10 @@ data "cloudinit_config" "bootstrap" {
         },
         {
           path : "/tmp/bootstrap.sh",
-          content : templatefile("${path.module}/templates/bootstrap.sh.tmpl", local.template_params)
+          content : base64encode(templatefile("${path.module}/templates/bootstrap.sh.tmpl", local.template_params))
           permissions : "0711",
           owner : "root:root"
+          encoding : "b64"
         }
       ],
       runcmd = concat([
