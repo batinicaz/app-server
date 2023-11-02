@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.2](https://github.com/batinicaz/freshrss/compare/v1.5.1...v1.5.2) (2023-11-02)
+
+
+### Bug Fixes
+
+* encode bootstrap script in user data ([7b3faa6](https://github.com/batinicaz/freshrss/commit/7b3faa68c0cea33afff1810a67e7d3b515ff3412))
+
 ### [1.5.1](https://github.com/batinicaz/freshrss/compare/v1.5.0...v1.5.1) (2023-11-02)
 
 
