@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/batinicaz/freshrss/compare/v1.5.0...v1.5.1) (2023-11-02)
+
+
+### Bug Fixes
+
+* retry download of backups + move backups to new bucket without retention rules to avoid never deleting backups ([a62549e](https://github.com/batinicaz/freshrss/commit/a62549ec5e4718bfa244234a0f34bfe80cb0af52))
+
 ## [1.5.0](https://github.com/batinicaz/freshrss/compare/v1.4.1...v1.5.0) (2023-08-30)
 
 
