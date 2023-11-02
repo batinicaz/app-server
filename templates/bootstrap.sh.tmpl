@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+### 1. Download Backups
+
+max_attempts=20
+delay=30
+attempt=1
+
+# Retry can be required if startup happens before Terraform can finish updating the IAM dynamic group membership conditions
+while (( attempt <= max_attempts ))
+do
+  echo "Attempt $attempt of $max_attempts"
+
+  set +e
+  oci os object bulk-download --namespace "${bucket_namespace}" --bucket-name "${bucket_name}" --download-dir /backups --auth instance_principal
+  cmd_status=$?
+  set -e
+
+  if [ $cmd_status -eq 0 ]; then
+    break
+  fi
+
+  if (( attempt > max_attempts ))
+  then
+    echo "Command failed after $max_attempts attempts"
+    exit 1
+  fi
+
+  echo "Downloading backups failed, waiting for $delay seconds..."
+  sleep $delay
+
+  (( attempt++ ))
+done
+
+### 2. Restore backups and setup freshrss
+freshrss_restore --latest
+cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url https://${freshrss_base_url} --title ${freshrss_subdomain}
+
+### 3. Setup Nitter
+sudo sed -i 's#\\(hostname = \\).*#\\1\"${nitter_fqdn}\"#' /opt/nitter/nitter.conf
+sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${nitter_fqdn}\"#' /opt/nitter/nitter.conf
+systemctl restart nitter
