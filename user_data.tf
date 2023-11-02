@@ -7,7 +7,11 @@ resource "null_resource" "regenerate_key" {
     image_id            = data.hcp_packer_image.freshrss_latest.cloud_image_id
     shape               = var.instance_shape
     subnet_id           = data.terraform_remote_state.oci_core.outputs.core_vcn_subnets["public"]
-    run_cmds            = base64sha256(join(";", local.startup_config))
+    run_cmds            = base64sha256(join(";", local.nginx_restart_config))
+    template_params = base64sha256(join(",", [
+      for k, v in local.template_params :
+      "${k}=${v}"
+    ]))
   }
 }
 
@@ -34,11 +38,19 @@ data "cloudinit_config" "bootstrap" {
           content : "30 1 * * * root oci os object bulk-upload --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name '${oci_objectstorage_bucket.backups.name}' --src-dir /backups --auth instance_principal --no-overwrite && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477'\n",
           permissions : "0644",
           owner : "root:root"
+        },
+        {
+          path : "/tmp/bootstrap.sh",
+          content : templatefile("${path.module}/templates/bootstrap.sh.tmpl", local.template_params)
+          permissions : "0711",
+          owner : "root:root"
         }
       ],
       runcmd = concat([
         "tailscale up --authkey ${tailscale_tailnet_key.freshrss.key} --ssh",
-      ], local.startup_config)
+        "systemctl restart cron",
+        "/tmp/bootstrap.sh"
+      ], local.nginx_restart_config)
     })
   }
 }
@@ -53,14 +65,11 @@ locals {
       "systemctl restart nginx",
     ]
   )
-
-  startup_config = concat(local.nginx_restart_config, [
-    "oci os object bulk-download --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name ${oci_objectstorage_bucket.backups.name} --download-dir /backups --auth instance_principal",
-    "systemctl restart cron",
-    "freshrss_restore --latest",
-    "cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url https://${local.services["freshrss"].fqdn} --title ${local.services["freshrss"].subdomain}",
-    "sudo sed -i 's#\\(hostname = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
-    "sudo sed -i 's#\\(replaceTwitter = \\).*#\\1\"${local.services["nitter"].fqdn}\"#' /opt/nitter/nitter.conf",
-    "systemctl restart nitter",
-  ])
+  template_params = {
+    bucket_namespace   = oci_objectstorage_bucket.backups.namespace
+    bucket_name        = oci_objectstorage_bucket.backups.name
+    freshrss_base_url  = local.services["freshrss"].fqdn
+    freshrss_subdomain = local.services["freshrss"].subdomain
+    nitter_fqdn        = local.services["nitter"].fqdn
+  }
 }

@@ -16,27 +16,18 @@ resource "oci_kms_key" "backups" {
 }
 
 resource "oci_objectstorage_bucket" "backups" {
-  // checkov:skip=CKV_OCI_8: Versioning intentionally disabled as not compatible with retention rules
   access_type           = "NoPublicAccess"
   compartment_id        = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
   kms_key_id            = oci_kms_key.backups.id
-  name                  = "freshrss-backups"
+  name                  = "backups-freshrss"
   namespace             = data.oci_objectstorage_namespace.terraform.namespace
   object_events_enabled = true
   storage_tier          = "Standard"
+  versioning            = "Enabled"
 
   defined_tags = merge(local.default_tags, {
-    "terraform.name" = "freshrss-backups"
+    "terraform.name" = "backups-freshrss"
   })
-
-  retention_rules {
-    display_name = "ensure-keep-backups-for-7-days"
-    duration {
-      time_amount = 7
-      time_unit   = "DAYS"
-    }
-    time_rule_locked = "2023-09-01T00:00:00Z"
-  }
 
   depends_on = [
     // Can not create bucket until object store has permission to use the key
@@ -53,6 +44,15 @@ resource "oci_objectstorage_object_lifecycle_policy" "delete_old_backups" {
     is_enabled  = true
     name        = "delete-old-backups"
     target      = "objects"
+    time_amount = 7
+    time_unit   = "DAYS"
+  }
+
+  rules {
+    action      = "DELETE"
+    is_enabled  = true
+    name        = "delete-old-versions-of-backups"
+    target      = "previous-object-versions"
     time_amount = 7
     time_unit   = "DAYS"
   }
