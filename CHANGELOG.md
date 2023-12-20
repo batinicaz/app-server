@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.3](https://github.com/batinicaz/freshrss/compare/v1.5.2...v1.5.3) (2023-12-20)
+
+
+### Bug Fixes
+
+* remove double escaping left over from terraform that caused nitter bootstrap to not run correctly ([b811208](https://github.com/batinicaz/freshrss/commit/b811208e19fd39d9c1b3408e54c832d7e239391f))
+
 ### [1.5.2](https://github.com/batinicaz/freshrss/compare/v1.5.1...v1.5.2) (2023-11-02)
 
 
