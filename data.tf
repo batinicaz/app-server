@@ -8,11 +8,11 @@ data "cloudflare_zone" "selected" {
   name = var.domain_name
 }
 
-data "hcp_packer_image" "freshrss_latest" {
-  bucket_name    = "oci-images-freshrss-stable"
-  cloud_provider = "packer.oracle.oci"
-  channel        = "latest"
-  region         = var.oci_region
+data "hcp_packer_artifact" "freshrss_latest" {
+  bucket_name  = "oci-images-freshrss-stable"
+  platform     = "packer.oracle.oci"
+  channel_name = "latest"
+  region       = var.oci_region
 }
 
 data "hcp_vault_secrets_app" "freshrss" {

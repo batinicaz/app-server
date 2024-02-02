@@ -4,7 +4,7 @@ resource "null_resource" "regenerate_key" {
     availability_domain = var.availability_domain
     backup_bucket       = oci_objectstorage_bucket.backups.bucket_id
     compartment_id      = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
-    image_id            = data.hcp_packer_image.freshrss_latest.cloud_image_id
+    image_id            = data.hcp_packer_artifact.freshrss_latest.external_identifier
     shape               = var.instance_shape
     subnet_id           = data.terraform_remote_state.oci_core.outputs.core_vcn_subnets["public"]
     run_cmds            = base64sha256(join(";", local.nginx_restart_config))

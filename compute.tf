@@ -34,7 +34,7 @@ resource "oci_core_instance" "freshrss" {
   }
 
   source_details {
-    source_id               = data.hcp_packer_image.freshrss_latest.cloud_image_id
+    source_id               = data.hcp_packer_artifact.freshrss_latest.external_identifier
     source_type             = "image"
     boot_volume_size_in_gbs = "50"
   }
