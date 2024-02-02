@@ -44,7 +44,7 @@ resource "oci_objectstorage_object_lifecycle_policy" "delete_old_backups" {
     is_enabled  = true
     name        = "delete-old-backups"
     target      = "objects"
-    time_amount = 7
+    time_amount = 2
     time_unit   = "DAYS"
   }
 
@@ -53,7 +53,7 @@ resource "oci_objectstorage_object_lifecycle_policy" "delete_old_backups" {
     is_enabled  = true
     name        = "delete-old-versions-of-backups"
     target      = "previous-object-versions"
-    time_amount = 7
+    time_amount = 1
     time_unit   = "DAYS"
   }
 
