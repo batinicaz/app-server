@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/batinicaz/freshrss/compare/v1.5.3...v1.6.0) (2024-02-02)
+
+
+### Features
+
+* move hcp_packer_image to hcp_packer_artifact following deprecation ([98063d3](https://github.com/batinicaz/freshrss/commit/98063d398b113dacdc684d2960e601077e494401))
+* reduce backups retention ([fa052da](https://github.com/batinicaz/freshrss/commit/fa052da16a7a00c74c7ba0f120f5a61282e045f4))
+
 ### [1.5.3](https://github.com/batinicaz/freshrss/compare/v1.5.2...v1.5.3) (2023-12-20)
 
 
