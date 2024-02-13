@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/batinicaz/freshrss/compare/v1.6.0...v1.6.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* add job to remove local copies of deleted backups to prevent re-uploading deleted backups ([7d0e7f9](https://github.com/batinicaz/freshrss/commit/7d0e7f9368018ee3f79fef6c0072fb73d556947f))
+
 ## [1.6.0](https://github.com/batinicaz/freshrss/compare/v1.5.3...v1.6.0) (2024-02-02)
 
 
