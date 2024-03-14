@@ -32,23 +32,20 @@ variable "lb_bandwidth" {
   default     = 10
 }
 
-variable "nitter_allowed_ips_dns" {
-  description = "A domain with A records for IP's that should be permitted to access Nitter over the internet"
-  type        = string
-  sensitive   = true
-}
-
 variable "services" {
   description = "The configuration of the different services running on the freshrss instance"
   type = map(object({
     port                = number                // The port the service is running on
     subdomain           = string                // The subdomain to expose the service on
     update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory
+    waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's
   }))
-  validation {
-    condition     = length(setintersection(["freshrss", "nitter"], toset(keys(var.services)))) == 2
-    error_message = "The only services supported are freshrss and nitter"
-  }
+}
+
+variable "trusted_ips_dns" {
+  description = "A domain with A records for IP's that should be permitted to access WAF protected services over the internet"
+  type        = string
+  sensitive   = true
 }
 
 variable "tf_cloud_organisation" {
