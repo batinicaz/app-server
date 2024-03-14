@@ -71,7 +71,7 @@ No modules.
 | [cloudflare_origin_ca_root_certificate.ecc](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/origin_ca_root_certificate) | data source |
 | [cloudflare_zone.selected](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 | [cloudinit_config.bootstrap](https://registry.terraform.io/providers/cloudinit/latest/docs/data-sources/config) | data source |
-| [dns_a_record_set.allowed_access_to_nitter](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/a_record_set) | data source |
+| [dns_a_record_set.trusted_ips_record](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/a_record_set) | data source |
 | [hcp_packer_artifact.freshrss_latest](https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/data-sources/packer_artifact) | data source |
 | [hcp_vault_secrets_app.freshrss](https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/data-sources/vault_secrets_app) | data source |
 | [oci_identity_compartment.terraform](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_compartment) | data source |
@@ -88,14 +88,14 @@ No modules.
 | <a name="input_instance_ram"></a> [instance\_ram](#input\_instance\_ram) | The total amount of RAM (in gigabytes) to allocate to the instance | `number` | `6` | no |
 | <a name="input_instance_shape"></a> [instance\_shape](#input\_instance\_shape) | Instance type to use, default is the always free domain ARM option. | `string` | `"VM.Standard.A1.Flex"` | no |
 | <a name="input_lb_bandwidth"></a> [lb\_bandwidth](#input\_lb\_bandwidth) | Bandwidth in Mbps. Default is the always free option. | `number` | `10` | no |
-| <a name="input_nitter_allowed_ips_dns"></a> [nitter\_allowed\_ips\_dns](#input\_nitter\_allowed\_ips\_dns) | A domain with A records for IP's that should be permitted to access Nitter over the internet | `string` | n/a | yes |
 | <a name="input_oci_fingerprint"></a> [oci\_fingerprint](#input\_oci\_fingerprint) | The fingerprint of the key used to authenticate with OCI | `string` | n/a | yes |
 | <a name="input_oci_private_key"></a> [oci\_private\_key](#input\_oci\_private\_key) | The private key to authenticate with OCI | `string` | n/a | yes |
 | <a name="input_oci_region"></a> [oci\_region](#input\_oci\_region) | The region in which to create resources | `string` | n/a | yes |
 | <a name="input_oci_tenancy_id"></a> [oci\_tenancy\_id](#input\_oci\_tenancy\_id) | The tenancy id where to resources are to be created | `string` | n/a | yes |
 | <a name="input_oci_user_id"></a> [oci\_user\_id](#input\_oci\_user\_id) | The ID of user that terraform will use to create the resources | `string` | n/a | yes |
-| <a name="input_services"></a> [services](#input\_services) | The configuration of the different services running on the freshrss instance | <pre>map(object({<br>    port                = number                // The port the service is running on<br>    subdomain           = string                // The subdomain to expose the service on<br>    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory<br>  }))</pre> | n/a | yes |
+| <a name="input_services"></a> [services](#input\_services) | The configuration of the different services running on the freshrss instance | <pre>map(object({<br>    port                = number                // The port the service is running on<br>    subdomain           = string                // The subdomain to expose the service on<br>    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory<br>    waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's<br>  }))</pre> | n/a | yes |
 | <a name="input_tf_cloud_organisation"></a> [tf\_cloud\_organisation](#input\_tf\_cloud\_organisation) | The name of the TF cloud organisation | `string` | n/a | yes |
+| <a name="input_trusted_ips_dns"></a> [trusted\_ips\_dns](#input\_trusted\_ips\_dns) | A domain with A records for IP's that should be permitted to access WAF protected services over the internet | `string` | n/a | yes |
 
 ## Outputs
 
