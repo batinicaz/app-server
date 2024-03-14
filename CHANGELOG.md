@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/batinicaz/freshrss/compare/v1.6.1...v1.7.0) (2024-03-14)
+
+
+### Features
+
+* add support for redlib and dynamic waf blocking per service ([d5a405a](https://github.com/batinicaz/freshrss/commit/d5a405a13e8ff7a97f60e2a3f8998ae6658b39f7))
+
 ### [1.6.1](https://github.com/batinicaz/freshrss/compare/v1.6.0...v1.6.1) (2024-02-13)
 
 
