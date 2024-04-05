@@ -34,14 +34,8 @@ data "cloudinit_config" "bootstrap" {
       hostname = "freshrss"
       write_files = [
         {
-          path : "/etc/cron.d/remove-local-copies-of-deleted-backups",
-          content : "30 0 * * * root oci os object sync --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name '${oci_objectstorage_bucket.backups.name}' --src-dir /backups --auth instance_principal --delete && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/75cab855-7140-46b1-bf6a-16ff02be913c'\n",
-          permissions : "0644",
-          owner : "root:root"
-        },
-        {
           path : "/etc/cron.d/sync-backups",
-          content : "30 1 * * * root oci os object bulk-upload --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name '${oci_objectstorage_bucket.backups.name}' --src-dir /backups --auth instance_principal --no-overwrite && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477'\n",
+          content : "30 1 * * * root oci os object sync --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name '${oci_objectstorage_bucket.backups.name}' --src-dir /backups --auth instance_principal --delete && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477'\n",
           permissions : "0644",
           owner : "root:root"
         },
