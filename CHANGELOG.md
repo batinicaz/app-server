@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/batinicaz/freshrss/compare/v1.7.0...v1.7.1) (2024-04-06)
+
+
+### Bug Fixes
+
+* remove redundant CRON job - deletion of local backups done in image ([64f0f4d](https://github.com/batinicaz/freshrss/commit/64f0f4d55156ef5de36b91bf431489c923476b73))
+
 ## [1.7.0](https://github.com/batinicaz/freshrss/compare/v1.6.1...v1.7.0) (2024-03-14)
 
 
