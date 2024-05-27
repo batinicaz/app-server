@@ -67,10 +67,10 @@ locals {
   nginx_restart_config = concat(
     [
       for service, config in local.services :
-      "sed -i 's#server_name ${service};#server_name ${config.fqdn};#' /etc/nginx/conf.d/${service}.conf" if config.update_nginx_config
+      "sed -i 's#server_name ${service};#server_name ${config.fqdn};#' /etc/openresty/conf.d/${service}.conf" if config.update_nginx_config
     ],
     [
-      "systemctl restart nginx",
+      "systemctl restart openresty",
     ]
   )
   template_params = {
