@@ -1,13 +1,14 @@
 resource "null_resource" "regenerate_key" {
   // Can not reference instance directly as that would be a cyclic dependency so track properties that will trigger a new instance
   triggers = {
-    availability_domain = var.availability_domain
-    backup_bucket       = oci_objectstorage_bucket.backups.bucket_id
-    compartment_id      = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
-    image_id            = data.hcp_packer_artifact.freshrss_latest.external_identifier
-    shape               = var.instance_shape
-    subnet_id           = data.terraform_remote_state.oci_core.outputs.core_vcn_subnets["public"]
-    run_cmds            = base64sha256(join(";", local.nginx_restart_config))
+    availability_domain    = var.availability_domain
+    freshrss_backup_bucket = oci_objectstorage_bucket.backups["backups-freshrss"].name
+    planka_backup_bucket   = oci_objectstorage_bucket.backups["backups-planka"].name
+    compartment_id         = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
+    image_id               = data.hcp_packer_artifact.freshrss_latest.external_identifier
+    shape                  = var.instance_shape
+    subnet_id              = data.terraform_remote_state.oci_core.outputs.core_vcn_subnets["public"]
+    run_cmds               = base64sha256(join(";", local.nginx_restart_config))
     template_params = base64sha256(join(",", [
       for k, v in local.template_params :
       "${k}=${v}"
@@ -34,8 +35,14 @@ data "cloudinit_config" "bootstrap" {
       hostname = "freshrss"
       write_files = [
         {
-          path : "/etc/cron.d/sync-backups",
-          content : "30 1 * * * root oci os object sync --namespace ${oci_objectstorage_bucket.backups.namespace} --bucket-name '${oci_objectstorage_bucket.backups.name}' --src-dir /backups --auth instance_principal --delete && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477'\n",
+          path : "/etc/cron.d/sync-freshrss-backups",
+          content : "30 1 * * * root oci os object sync --namespace ${oci_objectstorage_bucket.backups["backups-freshrss"].namespace} --bucket-name '${oci_objectstorage_bucket.backups["backups-freshrss"].name}' --src-dir /backups --auth instance_principal --delete && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/9a711459-6adf-4f5c-bdee-1153f0804477'\n",
+          permissions : "0644",
+          owner : "root:root"
+        },
+        {
+          path : "/etc/cron.d/sync-planka-backups",
+          content : "30 1 * * * root oci os object sync --namespace ${oci_objectstorage_bucket.backups["backups-planka"].namespace} --bucket-name '${oci_objectstorage_bucket.backups["backups-planka"].name}' --src-dir /opt/planka/backups --auth instance_principal --delete && curl -fsS -m 10 --retry 5 -o /dev/null 'https://hc-ping.com/14c533b1-f496-48e8-be2a-17768199492a'\n",
           permissions : "0644",
           owner : "root:root"
         },
@@ -67,10 +74,12 @@ locals {
     ]
   )
   template_params = {
-    bucket_namespace   = oci_objectstorage_bucket.backups.namespace
-    bucket_name        = oci_objectstorage_bucket.backups.name
-    freshrss_base_url  = local.services["freshrss"].fqdn
-    freshrss_subdomain = local.services["freshrss"].subdomain
-    nitter_fqdn        = local.services["nitter"].fqdn
+    freshrss_bucket_namespace = oci_objectstorage_bucket.backups["backups-freshrss"].namespace
+    freshrss_bucket_name      = oci_objectstorage_bucket.backups["backups-freshrss"].name
+    freshrss_base_url         = local.services["freshrss"].fqdn
+    freshrss_subdomain        = local.services["freshrss"].subdomain
+    nitter_fqdn               = local.services["nitter"].fqdn
+    planka_bucket_namespace   = oci_objectstorage_bucket.backups["backups-planka"].namespace
+    planka_bucket_name        = oci_objectstorage_bucket.backups["backups-planka"].name
   }
 }

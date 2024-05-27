@@ -8,29 +8,36 @@ delay=30
 attempt=1
 
 # Retry can be required if startup happens before Terraform can finish updating the IAM dynamic group membership conditions
-while (( attempt <= max_attempts ))
-do
-  echo "Attempt $attempt of $max_attempts"
+for bucket_name in ${freshrss_bucket_name} ${planka_bucket_name}; do
+  for bucket_namespace in ${freshrss_bucket_namespace} ${planka_bucket_namespace}; do
+    for download_dir in /backups /opt/planka/backups; do
+      attempt=1
+      while (( attempt <= max_attempts ))
+      do
+        echo "Attempt $attempt of $max_attempts for $bucket_name"
 
-  set +e
-  oci os object bulk-download --namespace "${bucket_namespace}" --bucket-name "${bucket_name}" --download-dir /backups --auth instance_principal
-  cmd_status=$?
-  set -e
+        set +e
+        oci os object bulk-download --namespace "$${bucket_namespace}" --bucket-name "$${bucket_name}" --download-dir "$${download_dir}" --auth instance_principal
+        cmd_status=$?
+        set -e
 
-  if [ $cmd_status -eq 0 ]; then
-    break
-  fi
+        if [ $cmd_status -eq 0 ]; then
+          break 3
+        fi
 
-  if (( attempt > max_attempts ))
-  then
-    echo "Command failed after $max_attempts attempts"
-    exit 1
-  fi
+        if (( attempt > max_attempts ))
+        then
+          echo "Command failed after $max_attempts attempts"
+          exit 1
+        fi
 
-  echo "Downloading backups failed, waiting for $delay seconds..."
-  sleep $delay
+        echo "Downloading backups failed, waiting for $delay seconds..."
+        sleep $delay
 
-  (( attempt++ ))
+        (( attempt++ ))
+      done
+    done
+  done
 done
 
 ### 2. Restore backups and setup freshrss
@@ -41,3 +48,6 @@ cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url https://${
 sudo sed -i 's#\(hostname = \).*#\1"${nitter_fqdn}"#' /opt/nitter/nitter.conf
 sudo sed -i 's#\(replaceTwitter = \).*#\1"${nitter_fqdn}"#' /opt/nitter/nitter.conf
 systemctl restart nitter
+
+### 3. Setup Planka
+cd /opt/planka && ./docker-restore.sh $(ls backups | sort -r | head -n 1) && docker compose restart
