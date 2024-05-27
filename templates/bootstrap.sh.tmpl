@@ -5,44 +5,44 @@ set -eou pipefail
 
 max_attempts=20
 delay=30
-attempt=1
 
-# Retry can be required if startup happens before Terraform can finish updating the IAM dynamic group membership conditions
-for bucket_name in ${freshrss_bucket_name} ${planka_bucket_name}; do
-  for bucket_namespace in ${freshrss_bucket_namespace} ${planka_bucket_namespace}; do
-    for download_dir in /backups /opt/planka/backups; do
-      attempt=1
-      while (( attempt <= max_attempts ))
-      do
-        echo "Attempt $attempt of $max_attempts for $bucket_name"
+download_with_retries() {
+  local bucket_name=$1
+  local bucket_namespace=$2
+  local download_dir=$3
 
-        set +e
-        oci os object bulk-download --namespace "$${bucket_namespace}" --bucket-name "$${bucket_name}" --download-dir "$${download_dir}" --auth instance_principal
-        cmd_status=$?
-        set -e
+  attempt=1
+  # Retry can be required if startup happens before Terraform can finish updating the IAM dynamic group membership conditions
+  while (( attempt <= max_attempts )); do
+    echo "Attempt $attempt of $max_attempts for $bucket_name in $bucket_namespace to $download_dir"
 
-        if [ $cmd_status -eq 0 ]; then
-          break 3
-        fi
+    set +e
+    oci os object bulk-download --namespace "$bucket_namespace" --bucket-name "$bucket_name" --download-dir "$download_dir" --auth instance_principal
+    cmd_status=$?
+    set -e
 
-        if (( attempt > max_attempts ))
-        then
-          echo "Command failed after $max_attempts attempts"
-          exit 1
-        fi
+    if [ $cmd_status -eq 0 ]; then
+      return 0
+    fi
 
-        echo "Downloading backups failed, waiting for $delay seconds..."
-        sleep $delay
+    if (( attempt >= max_attempts )); then
+      echo "Command failed after $max_attempts attempts"
+      exit 1
+    fi
 
-        (( attempt++ ))
-      done
-    done
+    echo "Downloading backups failed, waiting for $delay seconds..."
+    sleep $delay
+
+    (( attempt++ ))
   done
-done
+}
+
+download_with_retries "${freshrss_bucket_name}" "${freshrss_bucket_namespace}" /backups
+download_with_retries "${planka_bucket_name}" "${planka_bucket_namespace}" /opt/planka/backups
 
 ### 2. Restore backups and setup freshrss
 freshrss_restore --latest
-cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base_url https://${freshrss_base_url} --title ${freshrss_subdomain}
+cd /opt/freshrss && sudo -u www-data ./cli/reconfigure.php --base-url https://${freshrss_base_url} --title ${freshrss_subdomain}
 
 ### 3. Setup Nitter
 sudo sed -i 's#\(hostname = \).*#\1"${nitter_fqdn}"#' /opt/nitter/nitter.conf
@@ -50,4 +50,4 @@ sudo sed -i 's#\(replaceTwitter = \).*#\1"${nitter_fqdn}"#' /opt/nitter/nitter.c
 systemctl restart nitter
 
 ### 3. Setup Planka
-cd /opt/planka && ./docker-restore.sh backups/$(ls backups | sort -r | head -n 1) && docker compose restart
+cd /opt/planka && ./docker-restore.sh backups/$(ls /opt/planka/backups | sort -r | head -n 1) && docker compose restart
