@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/batinicaz/freshrss/compare/v1.8.0...v1.8.1) (2024-05-27)
+
+
+### Bug Fixes
+
+* restoring planka config on boot ([369336f](https://github.com/batinicaz/freshrss/commit/369336fbf25f2927bbc39f92412c557524deba00))
+
 ## [1.8.0](https://github.com/batinicaz/freshrss/compare/v1.7.1...v1.8.0) (2024-05-27)
 
 
