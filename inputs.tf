@@ -41,7 +41,6 @@ variable "services" {
     waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's
   }))
 }
-
 variable "trusted_ips_dns" {
   description = "A domain with A records for IP's that should be permitted to access WAF protected services over the internet"
   type        = string

@@ -1,12 +1,20 @@
+locals {
+  backup_buckets = toset([
+    "backups-freshrss",
+    "backups-planka"
+  ])
+}
+
 resource "oci_kms_key" "backups" {
+  for_each            = local.backup_buckets
   compartment_id      = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
   desired_state       = "ENABLED"
-  display_name        = "freshrss-backups"
+  display_name        = each.value
   management_endpoint = data.terraform_remote_state.oci_core.outputs.kms_vault_endpoint
   protection_mode     = "SOFTWARE" // Always free
 
   defined_tags = merge(local.default_tags, {
-    "terraform.name" = "freshrss-backups"
+    "terraform.name" = each.value
   })
 
   key_shape {
@@ -16,17 +24,18 @@ resource "oci_kms_key" "backups" {
 }
 
 resource "oci_objectstorage_bucket" "backups" {
+  for_each              = local.backup_buckets
   access_type           = "NoPublicAccess"
   compartment_id        = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
-  kms_key_id            = oci_kms_key.backups.id
-  name                  = "backups-freshrss"
+  kms_key_id            = oci_kms_key.backups[each.value].id
+  name                  = each.value
   namespace             = data.oci_objectstorage_namespace.terraform.namespace
   object_events_enabled = true
   storage_tier          = "Standard"
   versioning            = "Enabled"
 
   defined_tags = merge(local.default_tags, {
-    "terraform.name" = "backups-freshrss"
+    "terraform.name" = each.value
   })
 
   depends_on = [
@@ -36,8 +45,9 @@ resource "oci_objectstorage_bucket" "backups" {
 }
 
 resource "oci_objectstorage_object_lifecycle_policy" "delete_old_backups" {
-  namespace = oci_objectstorage_bucket.backups.namespace
-  bucket    = oci_objectstorage_bucket.backups.name
+  for_each  = local.backup_buckets
+  namespace = oci_objectstorage_bucket.backups[each.value].namespace
+  bucket    = oci_objectstorage_bucket.backups[each.value].name
 
   rules {
     action      = "DELETE"
