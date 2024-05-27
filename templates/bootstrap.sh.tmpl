@@ -50,4 +50,4 @@ sudo sed -i 's#\(replaceTwitter = \).*#\1"${nitter_fqdn}"#' /opt/nitter/nitter.c
 systemctl restart nitter
 
 ### 3. Setup Planka
-cd /opt/planka && ./docker-restore.sh $(ls backups | sort -r | head -n 1) && docker compose restart
+cd /opt/planka && ./docker-restore.sh backups/$(ls backups | sort -r | head -n 1) && docker compose restart
