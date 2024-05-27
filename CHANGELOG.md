@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/batinicaz/freshrss/compare/v1.7.1...v1.8.0) (2024-05-27)
+
+
+### Features
+
+* add planka ([3da5c0a](https://github.com/batinicaz/freshrss/commit/3da5c0a095eaafa503d3ee23f9c9dc138bf9e4b5))
+
 ### [1.7.1](https://github.com/batinicaz/freshrss/compare/v1.7.0...v1.7.1) (2024-04-06)
 
 
