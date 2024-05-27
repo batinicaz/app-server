@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.2](https://github.com/batinicaz/freshrss/compare/v1.8.1...v1.8.2) (2024-05-27)
+
+
+### Bug Fixes
+
+* bootstrap script ([6d4bea3](https://github.com/batinicaz/freshrss/commit/6d4bea35affdaca5e63feb0d97deec5220ed8231))
+* update nginx config following oci image change from nginx to openresty ([82e3af5](https://github.com/batinicaz/freshrss/commit/82e3af52f1dfa055d76c309fda4c6e36a0ae36d7))
+
 ### [1.8.1](https://github.com/batinicaz/freshrss/compare/v1.8.0...v1.8.1) (2024-05-27)
 
 
