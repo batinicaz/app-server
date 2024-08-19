@@ -5,7 +5,7 @@ resource "cloudflare_record" "services" {
   proxied  = true
   ttl      = 1
   type     = "A"
-  value    = oci_load_balancer.freshrss.ip_address_details[0].ip_address
+  content  = oci_load_balancer.freshrss.ip_address_details[0].ip_address
 }
 
 resource "oci_core_network_security_group" "freshrss_lb" {
