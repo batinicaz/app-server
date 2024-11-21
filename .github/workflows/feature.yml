@@ -6,19 +6,15 @@ on:
       - feature/*
       - bugfix/*
       - hotfix/*
-
 permissions:
   contents: read
-
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # ratchet:actions/checkout@v3
-
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
       - name: Run pre-commit
-        uses: batinicaz/gha/.github/actions/pre-commit@f95e2fd11d902f8e6b6eac6ff85ced89eb6d6fc2 # ratchet:batinicaz/gha/.github/actions/pre-commit@latest
-
+        uses: batinicaz/gha/.github/actions/pre-commit@4426e541888dfe9926d86e7d9954edac36dba55b # ratchet:batinicaz/gha/.github/actions/pre-commit@latest
   terraform:
     runs-on: ubuntu-latest
     permissions:
@@ -29,8 +25,7 @@ jobs:
       TF_CLOUD_ORGANIZATION: "${{ github.repository_owner }}"
       TF_WORKSPACE: ${{ github.event.repository.name }}
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # ratchet:actions/checkout@v3
-
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
       - name: Upload Configuration
         uses: hashicorp/tfc-workflows-github/actions/upload-configuration@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.2
         id: plan-upload
@@ -38,7 +33,6 @@ jobs:
           workspace: ${{ env.TF_WORKSPACE }}
           directory: ./
           speculative: true
-
       - name: Create Plan Run
         uses: hashicorp/tfc-workflows-github/actions/create-run@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/create-run@v1.0.2
         id: plan-run
@@ -46,13 +40,11 @@ jobs:
           workspace: ${{ env.TF_WORKSPACE }}
           configuration_version: ${{ steps.plan-upload.outputs.configuration_version_id }}
           plan_only: true
-
       - name: Get Plan Output
         uses: hashicorp/tfc-workflows-github/actions/plan-output@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/plan-output@v1.0.2
         id: plan-output
         with:
           plan: ${{ fromJSON(steps.plan-run.outputs.payload).data.relationships.plan.data.id }}
-
       - name: Update PR
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # ratchet:actions/github-script@v6
         if: github.event_name == 'pull_request'
@@ -60,33 +52,33 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-              // 1. Retrieve existing bot comments for the PR
-              const { data: comments } = await github.rest.issues.listComments({
+            // 1. Retrieve existing bot comments for the PR
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const botComment = comments.find(comment => {
+              return comment.user.type === 'Bot' && comment.body.includes('Terraform Cloud Plan Output')
+            });
+            // 2. Prepare format of the comment
+            const output = `#### Terraform Cloud Plan Output
+              \`\`\`
+              Plan: ${{ steps.plan-output.outputs.add }} to add, ${{ steps.plan-output.outputs.change }} to change, ${{ steps.plan-output.outputs.destroy }} to destroy.
+              \`\`\`
+              [Terraform Cloud Plan](${{ steps.plan-run.outputs.run_link }})
+              `;
+            // 3. Delete previous comment so PR timeline makes sense
+            if (botComment) {
+              github.rest.issues.deleteComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: context.issue.number,
+                comment_id: botComment.id,
               });
-              const botComment = comments.find(comment => {
-                return comment.user.type === 'Bot' && comment.body.includes('Terraform Cloud Plan Output')
-              });
-              // 2. Prepare format of the comment
-              const output = `#### Terraform Cloud Plan Output
-                \`\`\`
-                Plan: ${{ steps.plan-output.outputs.add }} to add, ${{ steps.plan-output.outputs.change }} to change, ${{ steps.plan-output.outputs.destroy }} to destroy.
-                \`\`\`
-                [Terraform Cloud Plan](${{ steps.plan-run.outputs.run_link }})
-                `;
-              // 3. Delete previous comment so PR timeline makes sense
-              if (botComment) {
-                github.rest.issues.deleteComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  comment_id: botComment.id,
-                });
-              }
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: output
-              });
+            }
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });
