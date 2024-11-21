@@ -3,13 +3,11 @@ on:
   push:
     branches:
       - main
-
 permissions:
   contents: write
-
 jobs:
   release:
-    uses: batinicaz/gha/.github/workflows/release.yml@f95e2fd11d902f8e6b6eac6ff85ced89eb6d6fc2 # ratchet:batinicaz/gha/.github/workflows/release.yml@latest
+    uses: batinicaz/gha/.github/workflows/release.yml@4426e541888dfe9926d86e7d9954edac36dba55b # ratchet:batinicaz/gha/.github/workflows/release.yml@latest
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_INSTALL_ID: ${{ secrets.APP_INSTALL_ID }}

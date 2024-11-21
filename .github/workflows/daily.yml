@@ -2,11 +2,9 @@ name: Daily Rebuild
 run-name: "Deploy ${{ github.ref }}"
 on:
   schedule:
-    - cron:  '0 4 * * *'
-
+    - cron: '0 4 * * *'
 permissions:
   contents: read
-
 jobs:
   deploy:
     name: Deploy to OCI
@@ -16,30 +14,25 @@ jobs:
       TF_CLOUD_ORGANIZATION: "${{ github.repository_owner }}"
       TF_WORKSPACE: ${{ github.event.repository.name }}
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # ratchet:actions/checkout@v3
-
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
       - name: Get latest tag
         run: echo "LATEST_TAG=$(git ls-remote --tags origin | grep -v '\^{}' | cut -d/ -f3 | sort -V | tail -n1)" >> $GITHUB_ENV
-
       - name: Checkout tag
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # ratchet:actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
         with:
           ref: refs/tags/${{ env.LATEST_TAG }}
-
       - name: Upload Configuration
         uses: hashicorp/tfc-workflows-github/actions/upload-configuration@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.2
         id: apply-upload
         with:
           workspace: ${{ env.TF_WORKSPACE }}
           directory: ./
-
       - name: Create Apply Run
         uses: hashicorp/tfc-workflows-github/actions/create-run@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/create-run@v1.0.2
         id: apply-run
         with:
           workspace: ${{ env.TF_WORKSPACE }}
           configuration_version: ${{ steps.apply-upload.outputs.configuration_version_id }}
-
       - name: Apply
         uses: hashicorp/tfc-workflows-github/actions/apply-run@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/apply-run@v1.0.2
         if: fromJSON(steps.apply-run.outputs.payload).data.attributes.actions.IsConfirmable
