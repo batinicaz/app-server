@@ -1,19 +1,19 @@
 repos:
   - repo: https://github.com/terraform-docs/terraform-docs
-    rev: v0.16.0
+    rev: v0.19.0
     hooks:
       - id: terraform-docs-go
         args: ["markdown", "table", "--output-file", "README.md", "./"]
 
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.22
+    rev: v0.1.26
     hooks:
       - id: terraform-fmt
       - id: tflint
       - id: terraform-validate
 
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 2.3.356
+    rev: 3.2.377
     hooks:
       - id: checkov
         args:
