@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.5](https://github.com/batinicaz/freshrss/compare/v1.8.4...v1.8.5) (2025-02-26)
+
+
+### Bug Fixes
+
+* tag on tailscale key ([04eb9bb](https://github.com/batinicaz/freshrss/commit/04eb9bbce20968271f711225eb0ee2e24158bd92))
+
 ### [1.8.4](https://github.com/batinicaz/freshrss/compare/v1.8.3...v1.8.4) (2024-11-21)
 
 ### [1.8.3](https://github.com/batinicaz/freshrss/compare/v1.8.2...v1.8.3) (2024-08-19)
