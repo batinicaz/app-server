@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/batinicaz/freshrss/compare/v1.8.5...v1.9.0) (2025-02-26)
+
+
+### Features
+
+* bump terraform providers to latest versions ([c397059](https://github.com/batinicaz/freshrss/commit/c39705954c3ab5957ea2be1e0f031f7a99b12386))
+
 ### [1.8.5](https://github.com/batinicaz/freshrss/compare/v1.8.4...v1.8.5) (2025-02-26)
 
 
