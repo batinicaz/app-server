@@ -4,6 +4,10 @@ data "dns_a_record_set" "trusted_ips_record" {
 
 locals {
   allowed_ips = join(" ", data.dns_a_record_set.trusted_ips_record.addrs)
+  services_behind_waf = {
+    for service, config in local.services :
+    service => config if config.waf_block
+  }
 }
 
 resource "cloudflare_ruleset" "zone_level_waf" {
@@ -13,16 +17,13 @@ resource "cloudflare_ruleset" "zone_level_waf" {
   kind        = "zone"
   phase       = "http_request_firewall_custom"
 
-  dynamic "rules" {
-    for_each = {
-      for service, config in local.services :
-      service => config if config.waf_block
-    }
-    content {
+  rules = [
+    for service, config in local.services_behind_waf :
+    {
       action      = "block"
-      description = "Restrict external access to ${rules.key}"
-      expression  = "(http.host eq \"${rules.value.fqdn}\" and not ip.src in {${local.allowed_ips}})"
+      description = "Restrict external access to ${service}"
+      expression  = "(http.host eq \"${config.fqdn}\" and not ip.src in {${local.allowed_ips}})"
       enabled     = true
     }
-  }
+  ]
 }

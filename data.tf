@@ -1,11 +1,7 @@
-data "cloudflare_origin_ca_root_certificate" "ecc" {
-  algorithm = "ecc"
-}
-
 data "cloudflare_ip_ranges" "current" {}
 
 data "cloudflare_zone" "selected" {
-  name = var.domain_name
+  zone_id = var.zone_id
 }
 
 data "hcp_packer_artifact" "freshrss_latest" {

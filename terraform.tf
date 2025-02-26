@@ -7,7 +7,7 @@ terraform {
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "~> 4.0"
+      version = "~> 5.0"
     }
     dns = {
       source  = "hashicorp/dns"
@@ -15,11 +15,11 @@ terraform {
     }
     hcp = {
       source  = "hashicorp/hcp"
-      version = "~> 0.68"
+      version = "~> 0.103"
     }
     oci = {
       source  = "oracle/oci"
-      version = "~> 5.0"
+      version = "~> 6.0"
     }
     null = {
       source  = "hashicorp/null"
@@ -27,7 +27,7 @@ terraform {
     }
     tailscale = {
       source  = "tailscale/tailscale"
-      version = "~> 0.13"
+      version = "~> 0.18"
     }
     tls = {
       source  = "hashicorp/tls"

@@ -10,26 +10,26 @@ Built on the image created in [freshrss-oci](https://github.com/batinicaz/freshr
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.5 |
-| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 4.0 |
+| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 5.0 |
 | <a name="requirement_cloudinit"></a> [cloudinit](#requirement\_cloudinit) | ~> 2.0 |
 | <a name="requirement_dns"></a> [dns](#requirement\_dns) | ~> 3.0 |
-| <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.68 |
+| <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.103 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.0 |
-| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 5.0 |
-| <a name="requirement_tailscale"></a> [tailscale](#requirement\_tailscale) | ~> 0.13 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 6.0 |
+| <a name="requirement_tailscale"></a> [tailscale](#requirement\_tailscale) | ~> 0.18 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 4.0 |
+| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 5.0 |
 | <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | ~> 2.0 |
 | <a name="provider_dns"></a> [dns](#provider\_dns) | ~> 3.0 |
-| <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.68 |
+| <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.103 |
 | <a name="provider_null"></a> [null](#provider\_null) | ~> 3.0 |
-| <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 5.0 |
-| <a name="provider_tailscale"></a> [tailscale](#provider\_tailscale) | ~> 0.13 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 6.0 |
+| <a name="provider_tailscale"></a> [tailscale](#provider\_tailscale) | ~> 0.18 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 4.0 |
 
@@ -41,8 +41,8 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [cloudflare_dns_record.services](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
 | [cloudflare_origin_ca_certificate.freshrss](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/origin_ca_certificate) | resource |
-| [cloudflare_record.services](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
 | [cloudflare_ruleset.zone_level_waf](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/ruleset) | resource |
 | [null_resource.regenerate_key](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [oci_core_instance.freshrss](https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance) | resource |
@@ -68,7 +68,6 @@ No modules.
 | [tailscale_tailnet_key.freshrss](https://registry.terraform.io/providers/tailscale/tailscale/latest/docs/resources/tailnet_key) | resource |
 | [tls_cert_request.freshrss](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/cert_request) | resource |
 | [cloudflare_ip_ranges.current](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/ip_ranges) | data source |
-| [cloudflare_origin_ca_root_certificate.ecc](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/origin_ca_root_certificate) | data source |
 | [cloudflare_zone.selected](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 | [cloudinit_config.bootstrap](https://registry.terraform.io/providers/cloudinit/latest/docs/data-sources/config) | data source |
 | [dns_a_record_set.trusted_ips_record](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/a_record_set) | data source |
@@ -83,7 +82,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | Availability domain where instance will be launched. | `string` | n/a | yes |
-| <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | The CloudFlare managed domain name to work under | `string` | n/a | yes |
 | <a name="input_instance_ocpus"></a> [instance\_ocpus](#input\_instance\_ocpus) | The number of Oracle CPU's to allocate to the instance | `number` | `1` | no |
 | <a name="input_instance_ram"></a> [instance\_ram](#input\_instance\_ram) | The total amount of RAM (in gigabytes) to allocate to the instance | `number` | `6` | no |
 | <a name="input_instance_shape"></a> [instance\_shape](#input\_instance\_shape) | Instance type to use, default is the always free domain ARM option. | `string` | `"VM.Standard.A1.Flex"` | no |
@@ -96,6 +94,7 @@ No modules.
 | <a name="input_services"></a> [services](#input\_services) | The configuration of the different services running on the freshrss instance | <pre>map(object({<br/>    port                = number                // The port the service is running on<br/>    subdomain           = string                // The subdomain to expose the service on<br/>    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory<br/>    waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's<br/>  }))</pre> | n/a | yes |
 | <a name="input_tf_cloud_organisation"></a> [tf\_cloud\_organisation](#input\_tf\_cloud\_organisation) | The name of the TF cloud organisation | `string` | n/a | yes |
 | <a name="input_trusted_ips_dns"></a> [trusted\_ips\_dns](#input\_trusted\_ips\_dns) | A domain with A records for IP's that should be permitted to access WAF protected services over the internet | `string` | n/a | yes |
+| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | The CloudFlare zone id to work under | `string` | n/a | yes |
 
 ## Outputs
 
