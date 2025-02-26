@@ -22,7 +22,7 @@ resource "tailscale_tailnet_key" "freshrss" {
   // Meaningless ternary to link with null resource for key re-creation
   preauthorized = length(null_resource.regenerate_key.id) > 0 ? true : true
   reusable      = false
-  tags          = ["tag:OCI"]
+  tags          = ["tag:oci"]
 }
 
 data "cloudinit_config" "bootstrap" {
