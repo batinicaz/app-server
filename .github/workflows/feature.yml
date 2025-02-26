@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
       - name: Run pre-commit
-        uses: batinicaz/gha/.github/actions/pre-commit@4426e541888dfe9926d86e7d9954edac36dba55b # ratchet:batinicaz/gha/.github/actions/pre-commit@latest
+        uses: batinicaz/gha/.github/actions/pre-commit@4426e541888dfe9926d86e7d9954edac36dba55b # ratchet:batinicaz/gha/.github/actions/pre-commit@v1.2.3
   terraform:
     runs-on: ubuntu-latest
     permissions:
@@ -27,26 +27,26 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
       - name: Upload Configuration
-        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.2
+        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@8e08d1ba957673f5fbf971a22b3219639dc45661 # ratchet:hashicorp/tfc-workflows-github/actions/upload-configuration@v1.3.2
         id: plan-upload
         with:
           workspace: ${{ env.TF_WORKSPACE }}
           directory: ./
           speculative: true
       - name: Create Plan Run
-        uses: hashicorp/tfc-workflows-github/actions/create-run@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/create-run@v1.0.2
+        uses: hashicorp/tfc-workflows-github/actions/create-run@8e08d1ba957673f5fbf971a22b3219639dc45661 # ratchet:hashicorp/tfc-workflows-github/actions/create-run@v1.3.2
         id: plan-run
         with:
           workspace: ${{ env.TF_WORKSPACE }}
           configuration_version: ${{ steps.plan-upload.outputs.configuration_version_id }}
           plan_only: true
       - name: Get Plan Output
-        uses: hashicorp/tfc-workflows-github/actions/plan-output@02ae73d5f2ff0b7eaec858cd12c41b3d914e8d2c # ratchet:hashicorp/tfc-workflows-github/actions/plan-output@v1.0.2
+        uses: hashicorp/tfc-workflows-github/actions/plan-output@8e08d1ba957673f5fbf971a22b3219639dc45661 # ratchet:hashicorp/tfc-workflows-github/actions/plan-output@v1.3.2
         id: plan-output
         with:
           plan: ${{ fromJSON(steps.plan-run.outputs.payload).data.relationships.plan.data.id }}
       - name: Update PR
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # ratchet:actions/github-script@v7.0.1
         if: github.event_name == 'pull_request'
         id: plan-comment
         with:
