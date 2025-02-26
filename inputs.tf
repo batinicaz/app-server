@@ -3,17 +3,6 @@ variable "availability_domain" {
   description = "Availability domain where instance will be launched."
 }
 
-variable "domain_name" {
-  description = "The CloudFlare managed domain name to work under"
-  type        = string
-}
-
-variable "instance_shape" {
-  type        = string
-  default     = "VM.Standard.A1.Flex"
-  description = "Instance type to use, default is the always free domain ARM option."
-}
-
 variable "instance_ocpus" {
   type        = number
   description = "The number of Oracle CPU's to allocate to the instance"
@@ -26,30 +15,16 @@ variable "instance_ram" {
   default     = 6
 }
 
+variable "instance_shape" {
+  type        = string
+  default     = "VM.Standard.A1.Flex"
+  description = "Instance type to use, default is the always free domain ARM option."
+}
+
 variable "lb_bandwidth" {
   description = "Bandwidth in Mbps. Default is the always free option."
   type        = number
   default     = 10
-}
-
-variable "services" {
-  description = "The configuration of the different services running on the freshrss instance"
-  type = map(object({
-    port                = number                // The port the service is running on
-    subdomain           = string                // The subdomain to expose the service on
-    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory
-    waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's
-  }))
-}
-variable "trusted_ips_dns" {
-  description = "A domain with A records for IP's that should be permitted to access WAF protected services over the internet"
-  type        = string
-  sensitive   = true
-}
-
-variable "tf_cloud_organisation" {
-  description = "The name of the TF cloud organisation"
-  type        = string
 }
 
 variable "oci_fingerprint" {
@@ -78,6 +53,32 @@ variable "oci_user_id" {
   type        = string
 }
 
+variable "services" {
+  description = "The configuration of the different services running on the freshrss instance"
+  type = map(object({
+    port                = number                // The port the service is running on
+    subdomain           = string                // The subdomain to expose the service on
+    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory
+    waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's
+  }))
+}
+
+variable "tf_cloud_organisation" {
+  description = "The name of the TF cloud organisation"
+  type        = string
+}
+
+variable "trusted_ips_dns" {
+  description = "A domain with A records for IP's that should be permitted to access WAF protected services over the internet"
+  type        = string
+  sensitive   = true
+}
+
+variable "zone_id" {
+  description = "The CloudFlare zone id to work under"
+  type        = string
+}
+
 locals {
   default_tags = {
     "terraform.managed" = "terraform"
@@ -87,7 +88,7 @@ locals {
   services = {
     for service, config in var.services :
     service => merge(config, {
-      fqdn = "${config.subdomain}.${var.domain_name}"
+      fqdn = "${config.subdomain}.${data.cloudflare_zone.selected.name}"
     })
   }
 }

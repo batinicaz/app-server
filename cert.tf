@@ -3,16 +3,15 @@ resource "tls_cert_request" "freshrss" {
   private_key_pem = base64decode(data.hcp_vault_secrets_app.freshrss.secrets["private_key"])
 
   subject {
-    common_name = "${var.services["freshrss"].subdomain}.${var.domain_name}"
+    common_name = "${var.services["freshrss"].subdomain}.${data.cloudflare_zone.selected.name}"
   }
 }
 
 resource "cloudflare_origin_ca_certificate" "freshrss" {
-  csr                  = tls_cert_request.freshrss.cert_request_pem
-  hostnames            = values(local.services)[*].fqdn
-  min_days_for_renewal = 90
-  request_type         = "origin-ecc"
-  requested_validity   = 365
+  csr                = tls_cert_request.freshrss.cert_request_pem
+  hostnames          = values(local.services)[*].fqdn
+  request_type       = "origin-ecc"
+  requested_validity = 365
 }
 
 
@@ -20,7 +19,6 @@ resource "cloudflare_origin_ca_certificate" "freshrss" {
 resource "oci_load_balancer_certificate" "freshrss" {
   certificate_name   = "freshrss-${cloudflare_origin_ca_certificate.freshrss.id}"
   load_balancer_id   = oci_load_balancer.freshrss.id
-  ca_certificate     = data.cloudflare_origin_ca_root_certificate.ecc.cert_pem
   private_key        = base64decode(data.hcp_vault_secrets_app.freshrss.secrets["private_key"])
   public_certificate = cloudflare_origin_ca_certificate.freshrss.certificate
 

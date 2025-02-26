@@ -1,6 +1,6 @@
-resource "cloudflare_record" "services" {
+resource "cloudflare_dns_record" "services" {
   for_each = local.services
-  zone_id  = data.cloudflare_zone.selected.id
+  zone_id  = var.zone_id
   name     = each.value.subdomain
   proxied  = true
   ttl      = 1
@@ -19,7 +19,7 @@ resource "oci_core_network_security_group" "freshrss_lb" {
 }
 
 resource "oci_core_network_security_group_security_rule" "lb_ingress" {
-  for_each                  = toset(data.cloudflare_ip_ranges.current.ipv4_cidr_blocks)
+  for_each                  = toset(data.cloudflare_ip_ranges.current.ipv4_cidrs)
   description               = "Ingress from CloudFlare"
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.freshrss_lb.id
