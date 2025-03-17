@@ -54,7 +54,7 @@ variable "oci_user_id" {
 }
 
 variable "services" {
-  description = "The configuration of the different services running on the freshrss instance"
+  description = "The configuration of the different services running on the app server instance"
   type = map(object({
     port                = number                // The port the service is running on
     subdomain           = string                // The subdomain to expose the service on
@@ -82,7 +82,7 @@ variable "zone_id" {
 locals {
   default_tags = {
     "terraform.managed" = "terraform"
-    "terraform.repo"    = "https://github.com/batinicaz/freshrss"
+    "terraform.repo"    = "https://github.com/batinicaz/app-server"
   }
 
   services = {
