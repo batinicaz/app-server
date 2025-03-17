@@ -5,7 +5,7 @@ resource "null_resource" "regenerate_key" {
     freshrss_backup_bucket = oci_objectstorage_bucket.backups["backups-freshrss"].name
     planka_backup_bucket   = oci_objectstorage_bucket.backups["backups-planka"].name
     compartment_id         = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
-    image_id               = data.hcp_packer_artifact.freshrss_latest.external_identifier
+    image_id               = data.oci_core_images.app_server_latest.images[0].id
     shape                  = var.instance_shape
     subnet_id              = data.terraform_remote_state.oci_core.outputs.core_vcn_subnets["public"]
     run_cmds               = base64sha256(join(";", local.nginx_restart_config))
@@ -16,7 +16,7 @@ resource "null_resource" "regenerate_key" {
   }
 }
 
-resource "tailscale_tailnet_key" "freshrss" {
+resource "tailscale_tailnet_key" "app_server" {
   ephemeral = true
   expiry    = 3600 // 1 hour
   // Meaningless ternary to link with null resource for key re-creation
@@ -32,7 +32,7 @@ data "cloudinit_config" "bootstrap" {
   part {
     content_type = "text/cloud-config"
     content = yamlencode({
-      hostname = "freshrss"
+      hostname = "oci-app-server"
       write_files = [
         {
           path : "/etc/cron.d/sync-freshrss-backups",
@@ -55,7 +55,7 @@ data "cloudinit_config" "bootstrap" {
         }
       ],
       runcmd = concat([
-        "tailscale up --authkey ${tailscale_tailnet_key.freshrss.key} --ssh",
+        "tailscale up --authkey ${tailscale_tailnet_key.app_server.key} --ssh",
         "systemctl restart cron",
         "/tmp/bootstrap.sh"
       ], local.nginx_restart_config)
