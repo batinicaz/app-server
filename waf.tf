@@ -1,9 +1,13 @@
-data "dns_a_record_set" "trusted_ips_record" {
+data "dns_a_record_set" "trusted_ipv4" {
+  host = var.trusted_ips_dns
+}
+
+data "dns_aaaa_record_set" "trusted_ipv6" {
   host = var.trusted_ips_dns
 }
 
 locals {
-  allowed_ips = join(" ", data.dns_a_record_set.trusted_ips_record.addrs)
+  allowed_ips = join(" ", concat(data.dns_a_record_set.trusted_ipv4.addrs, data.dns_aaaa_record_set.trusted_ipv6.addrs))
   services_behind_waf = {
     for service, config in local.services :
     service => config if config.waf_block
