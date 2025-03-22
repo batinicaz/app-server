@@ -13,7 +13,7 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 5.0 |
 | <a name="requirement_cloudinit"></a> [cloudinit](#requirement\_cloudinit) | ~> 2.0 |
 | <a name="requirement_dns"></a> [dns](#requirement\_dns) | ~> 3.0 |
-| <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.103 |
+| <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.104 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 6.0 |
 | <a name="requirement_tailscale"></a> [tailscale](#requirement\_tailscale) | ~> 0.18 |
@@ -26,7 +26,7 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 5.0 |
 | <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | ~> 2.0 |
 | <a name="provider_dns"></a> [dns](#provider\_dns) | ~> 3.0 |
-| <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.103 |
+| <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.104 |
 | <a name="provider_null"></a> [null](#provider\_null) | ~> 3.0 |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 6.0 |
 | <a name="provider_tailscale"></a> [tailscale](#provider\_tailscale) | ~> 0.18 |
@@ -70,7 +70,8 @@ No modules.
 | [cloudflare_ip_ranges.current](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/ip_ranges) | data source |
 | [cloudflare_zone.selected](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 | [cloudinit_config.bootstrap](https://registry.terraform.io/providers/cloudinit/latest/docs/data-sources/config) | data source |
-| [dns_a_record_set.trusted_ips_record](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/a_record_set) | data source |
+| [dns_a_record_set.trusted_ipv4](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/a_record_set) | data source |
+| [dns_aaaa_record_set.trusted_ipv6](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/aaaa_record_set) | data source |
 | [hcp_vault_secrets_app.app_server](https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/data-sources/vault_secrets_app) | data source |
 | [oci_core_images.app_server_latest](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
 | [oci_identity_compartment.terraform](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_compartment) | data source |
