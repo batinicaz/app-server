@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/batinicaz/app-server/compare/v1.9.5...v1.10.0) (2025-03-22)
+
+
+### Features
+
+* add ipv6 to waf ([1173da1](https://github.com/batinicaz/app-server/commit/1173da1a31fee59664e110c1ce53383c000eaf7d))
+
 ### [1.9.5](https://github.com/batinicaz/app-server/compare/v1.9.4...v1.9.5) (2025-03-17)
 
 ### [1.9.4](https://github.com/batinicaz/freshrss/compare/v1.9.3...v1.9.4) (2025-02-27)
