@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/batinicaz/app-server/compare/v1.11.0...v1.12.0) (2025-03-23)
+
+
+### Features
+
+* use cloudflare custom list in waf ([3f379de](https://github.com/batinicaz/app-server/commit/3f379deaf26556d88221bfff10161b60c8ae989c))
+
 ## [1.11.0](https://github.com/batinicaz/app-server/compare/v1.10.1...v1.11.0) (2025-03-23)
 
 
