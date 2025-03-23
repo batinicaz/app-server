@@ -25,7 +25,6 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 |------|---------|
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 5.0 |
 | <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | ~> 2.0 |
-| <a name="provider_dns"></a> [dns](#provider\_dns) | ~> 3.0 |
 | <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.104 |
 | <a name="provider_null"></a> [null](#provider\_null) | ~> 3.0 |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 6.0 |
@@ -70,8 +69,6 @@ No modules.
 | [cloudflare_ip_ranges.current](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/ip_ranges) | data source |
 | [cloudflare_zone.selected](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 | [cloudinit_config.bootstrap](https://registry.terraform.io/providers/cloudinit/latest/docs/data-sources/config) | data source |
-| [dns_a_record_set.trusted_ipv4](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/a_record_set) | data source |
-| [dns_aaaa_record_set.trusted_ipv6](https://registry.terraform.io/providers/hashicorp/dns/latest/docs/data-sources/aaaa_record_set) | data source |
 | [hcp_vault_secrets_app.app_server](https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/data-sources/vault_secrets_app) | data source |
 | [oci_core_images.app_server_latest](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
 | [oci_identity_compartment.terraform](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_compartment) | data source |
@@ -83,6 +80,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_availability_domain"></a> [availability\_domain](#input\_availability\_domain) | Availability domain where instance will be launched. | `string` | n/a | yes |
+| <a name="input_cloudflare_custom_list"></a> [cloudflare\_custom\_list](#input\_cloudflare\_custom\_list) | The name of the custom list in CloudFlare containing trusted IP ranges | `string` | n/a | yes |
 | <a name="input_instance_ocpus"></a> [instance\_ocpus](#input\_instance\_ocpus) | The number of Oracle CPU's to allocate to the instance | `number` | `1` | no |
 | <a name="input_instance_ram"></a> [instance\_ram](#input\_instance\_ram) | The total amount of RAM (in gigabytes) to allocate to the instance | `number` | `6` | no |
 | <a name="input_instance_shape"></a> [instance\_shape](#input\_instance\_shape) | Instance type to use, default is the always free domain ARM option. | `string` | `"VM.Standard.A1.Flex"` | no |
@@ -94,7 +92,6 @@ No modules.
 | <a name="input_oci_user_id"></a> [oci\_user\_id](#input\_oci\_user\_id) | The ID of user that terraform will use to create the resources | `string` | n/a | yes |
 | <a name="input_services"></a> [services](#input\_services) | The configuration of the different services running on the app server instance | <pre>map(object({<br/>    port                = number                // The port the service is running on<br/>    subdomain           = string                // The subdomain to expose the service on<br/>    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory<br/>    waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's<br/>  }))</pre> | n/a | yes |
 | <a name="input_tf_cloud_organisation"></a> [tf\_cloud\_organisation](#input\_tf\_cloud\_organisation) | The name of the TF cloud organisation | `string` | n/a | yes |
-| <a name="input_trusted_ips_dns"></a> [trusted\_ips\_dns](#input\_trusted\_ips\_dns) | A domain with A records for IP's that should be permitted to access WAF protected services over the internet | `string` | n/a | yes |
 | <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | The CloudFlare zone id to work under | `string` | n/a | yes |
 
 ## Outputs
