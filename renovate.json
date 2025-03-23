@@ -2,5 +2,30 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["README\\.md$"],
+      "matchStrings": [
+        "\\| <a name=\"requirement_(?<depName>.*?)\"></a>.*?\\| (?<currentValue>.*?) \\|"
+      ],
+      "datasourceTemplate": "terraform-provider",
+      "extractVersionTemplate": "^[^0-9]*(?<version>.*?)$"
+    },
+    {
+      "fileMatch": ["README\\.md$"],
+      "matchStrings": [
+        "\\| <a name=\"provider_(?<depName>.*?)\"></a>.*?\\| (?<currentValue>.*?) \\|"
+      ],
+      "datasourceTemplate": "terraform-provider",
+      "extractVersionTemplate": "^[^0-9]*(?<version>.*?)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["hashicorp/terraform"],
+      "versioning": "hashicorp",
+      "rangeStrategy": "replace"
+    }
   ]
 }
