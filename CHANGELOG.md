@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/batinicaz/app-server/compare/v1.10.1...v1.11.0) (2025-03-23)
+
+
+### Features
+
+* update README when TF versions change ([c064000](https://github.com/batinicaz/app-server/commit/c064000e8c7665587b60c250274fe80af6c8d794))
+
 ### [1.10.1](https://github.com/batinicaz/app-server/compare/v1.10.0...v1.10.1) (2025-03-22)
 
 ## [1.10.0](https://github.com/batinicaz/app-server/compare/v1.9.5...v1.10.0) (2025-03-22)
