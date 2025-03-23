@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/batinicaz/app-server/compare/v1.12.0...v1.13.0) (2025-03-23)
+
+
+### Features
+
+* remove unused dns provider ([682bd94](https://github.com/batinicaz/app-server/commit/682bd94acafe8c4e040d426f3ab27507baa3dd1c))
+
 ## [1.12.0](https://github.com/batinicaz/app-server/compare/v1.11.0...v1.12.0) (2025-03-23)
 
 
