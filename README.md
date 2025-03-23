@@ -12,7 +12,6 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.5 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 5.0 |
 | <a name="requirement_cloudinit"></a> [cloudinit](#requirement\_cloudinit) | ~> 2.0 |
-| <a name="requirement_dns"></a> [dns](#requirement\_dns) | ~> 3.0 |
 | <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.104 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 6.0 |

@@ -15,10 +15,6 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 5.0"
     }
-    dns = {
-      source  = "hashicorp/dns"
-      version = "~> 3.0"
-    }
     hcp = {
       source  = "hashicorp/hcp"
       version = "~> 0.104"
