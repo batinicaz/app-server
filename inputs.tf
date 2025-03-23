@@ -3,6 +3,11 @@ variable "availability_domain" {
   description = "Availability domain where instance will be launched."
 }
 
+variable "cloudflare_custom_list" {
+  type        = string
+  description = "The name of the custom list in CloudFlare containing trusted IP ranges"
+}
+
 variable "instance_ocpus" {
   type        = number
   description = "The number of Oracle CPU's to allocate to the instance"
@@ -66,12 +71,6 @@ variable "services" {
 variable "tf_cloud_organisation" {
   description = "The name of the TF cloud organisation"
   type        = string
-}
-
-variable "trusted_ips_dns" {
-  description = "A domain with A records for IP's that should be permitted to access WAF protected services over the internet"
-  type        = string
-  sensitive   = true
 }
 
 variable "zone_id" {
