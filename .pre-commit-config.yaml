@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/terraform-docs/terraform-docs
-    rev: v0.19.0
+    rev: v0.20.0
     hooks:
       - id: terraform-docs-go
         args: ["markdown", "table", "--output-file", "README.md", "./"]
@@ -13,7 +13,7 @@ repos:
       - id: terraform-validate
 
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 3.2.390
+    rev: 3.2.403
     hooks:
       - id: checkov
         args:

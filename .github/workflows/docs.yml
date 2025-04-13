@@ -1,10 +1,10 @@
 name: Update Terraform Docs
-
 on:
   push:
     branches:
       - "renovate/**"
-
+permissions:
+  contents: read
 jobs:
   terraform-docs:
     runs-on: ubuntu-latest
