@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
       - name: Run pre-commit
-        uses: batinicaz/gha/.github/actions/pre-commit@4426e541888dfe9926d86e7d9954edac36dba55b # ratchet:batinicaz/gha/.github/actions/pre-commit@v1.2.3
+        uses: batinicaz/gha/.github/actions/pre-commit@4426e541888dfe9926d86e7d9954edac36dba55b # ratchet:batinicaz/gha/.github/actions/pre-commit@v1.2.5
   terraform:
     runs-on: ubuntu-latest
     permissions:
