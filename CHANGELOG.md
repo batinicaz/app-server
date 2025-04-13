@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.13.2](https://github.com/batinicaz/app-server/compare/v1.13.1...v1.13.2) (2025-04-13)
+
+
+### Bug Fixes
+
+* Inject tf docs instead of replacing README ([79f5af9](https://github.com/batinicaz/app-server/commit/79f5af900ed2b46432c466012b7e4de2c422a964))
+
 ### [1.13.1](https://github.com/batinicaz/app-server/compare/v1.13.0...v1.13.1) (2025-04-13)
 
 ## [1.13.0](https://github.com/batinicaz/app-server/compare/v1.12.0...v1.13.0) (2025-03-23)
