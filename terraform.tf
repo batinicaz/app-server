@@ -17,7 +17,7 @@ terraform {
     }
     hcp = {
       source  = "hashicorp/hcp"
-      version = "~> 0.105"
+      version = "~> 0.106"
     }
     oci = {
       source  = "oracle/oci"
