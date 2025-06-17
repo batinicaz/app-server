@@ -12,7 +12,7 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.5 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 5.0 |
 | <a name="requirement_cloudinit"></a> [cloudinit](#requirement\_cloudinit) | ~> 2.0 |
-| <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.106 |
+| <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.107 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 7.0 |
 | <a name="requirement_tailscale"></a> [tailscale](#requirement\_tailscale) | ~> 0.21 |
@@ -24,7 +24,7 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 |------|---------|
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 5.0 |
 | <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | ~> 2.0 |
-| <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.106 |
+| <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.107 |
 | <a name="provider_null"></a> [null](#provider\_null) | ~> 3.0 |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 7.0 |
 | <a name="provider_tailscale"></a> [tailscale](#provider\_tailscale) | ~> 0.21 |
