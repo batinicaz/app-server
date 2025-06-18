@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.13.11](https://github.com/batinicaz/app-server/compare/v1.13.10...v1.13.11) (2025-06-18)
+
 ### [1.13.10](https://github.com/batinicaz/app-server/compare/v1.13.9...v1.13.10) (2025-06-16)
 
 ### [1.13.9](https://github.com/batinicaz/app-server/compare/v1.13.8...v1.13.9) (2025-05-07)
