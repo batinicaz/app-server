@@ -1,7 +1,7 @@
 resource "cloudflare_dns_record" "services" {
   for_each = local.services
   zone_id  = var.zone_id
-  name     = each.value.subdomain
+  name     = each.value.fqdn
   proxied  = true
   ttl      = 1
   type     = "A"

@@ -9,7 +9,7 @@ resource "tls_cert_request" "app_server" {
 
 resource "cloudflare_origin_ca_certificate" "app_server" {
   csr                = tls_cert_request.app_server.cert_request_pem
-  hostnames          = values(local.services)[*].fqdn
+  hostnames          = sort(values(local.services)[*].fqdn)
   request_type       = "origin-ecc"
   requested_validity = 365
 }
