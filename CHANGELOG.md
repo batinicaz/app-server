@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/batinicaz/app-server/compare/v1.13.11...v1.14.0) (2025-06-21)
+
+
+### Features
+
+* remove usage of hcp_vault_secrets as end of life ([09428b4](https://github.com/batinicaz/app-server/commit/09428b4036eefd7a4db4080cf0e8d79ad205b75a))
+
+
+### Bug Fixes
+
+* resources causing consistent drift ([65058d8](https://github.com/batinicaz/app-server/commit/65058d88028799f5e5617c81f6488cc05ea5c97a))
+
 ### [1.13.11](https://github.com/batinicaz/app-server/compare/v1.13.10...v1.13.11) (2025-06-18)
 
 ### [1.13.10](https://github.com/batinicaz/app-server/compare/v1.13.9...v1.13.10) (2025-06-16)
