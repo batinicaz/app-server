@@ -12,7 +12,6 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.5 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 5.0 |
 | <a name="requirement_cloudinit"></a> [cloudinit](#requirement\_cloudinit) | ~> 2.0 |
-| <a name="requirement_hcp"></a> [hcp](#requirement\_hcp) | ~> 0.107 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | ~> 7.0 |
 | <a name="requirement_tailscale"></a> [tailscale](#requirement\_tailscale) | ~> 0.21 |
@@ -24,7 +23,6 @@ Built on the image created in [app-server-oci](https://github.com/batinicaz/app-
 |------|---------|
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 5.0 |
 | <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | ~> 2.0 |
-| <a name="provider_hcp"></a> [hcp](#provider\_hcp) | ~> 0.107 |
 | <a name="provider_null"></a> [null](#provider\_null) | ~> 3.0 |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | ~> 7.0 |
 | <a name="provider_tailscale"></a> [tailscale](#provider\_tailscale) | ~> 0.21 |
@@ -68,7 +66,6 @@ No modules.
 | [cloudflare_ip_ranges.current](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/ip_ranges) | data source |
 | [cloudflare_zone.selected](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 | [cloudinit_config.bootstrap](https://registry.terraform.io/providers/cloudinit/latest/docs/data-sources/config) | data source |
-| [hcp_vault_secrets_app.app_server](https://registry.terraform.io/providers/hashicorp/hcp/latest/docs/data-sources/vault_secrets_app) | data source |
 | [oci_core_images.app_server_latest](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/core_images) | data source |
 | [oci_identity_compartment.terraform](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/identity_compartment) | data source |
 | [oci_objectstorage_namespace.terraform](https://registry.terraform.io/providers/oracle/oci/latest/docs/data-sources/objectstorage_namespace) | data source |
@@ -89,6 +86,7 @@ No modules.
 | <a name="input_oci_region"></a> [oci\_region](#input\_oci\_region) | The region in which to create resources | `string` | n/a | yes |
 | <a name="input_oci_tenancy_id"></a> [oci\_tenancy\_id](#input\_oci\_tenancy\_id) | The tenancy id where to resources are to be created | `string` | n/a | yes |
 | <a name="input_oci_user_id"></a> [oci\_user\_id](#input\_oci\_user\_id) | The ID of user that terraform will use to create the resources | `string` | n/a | yes |
+| <a name="input_private_key_pem"></a> [private\_key\_pem](#input\_private\_key\_pem) | The base64 encoded private key pem for the TLS certificate used on the load balancer | `string` | n/a | yes |
 | <a name="input_services"></a> [services](#input\_services) | The configuration of the different services running on the app server instance | <pre>map(object({<br/>    port                = number                // The port the service is running on<br/>    subdomain           = string                // The subdomain to expose the service on<br/>    update_nginx_config = optional(bool, false) // If true will replace the servername in the nginx config directory<br/>    waf_block           = optional(bool, false) // If true will prevent access from anything other than trusted IP's<br/>  }))</pre> | n/a | yes |
 | <a name="input_tf_cloud_organisation"></a> [tf\_cloud\_organisation](#input\_tf\_cloud\_organisation) | The name of the TF cloud organisation | `string` | n/a | yes |
 | <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | The CloudFlare zone id to work under | `string` | n/a | yes |

@@ -15,10 +15,6 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 5.0"
     }
-    hcp = {
-      source  = "hashicorp/hcp"
-      version = "~> 0.107"
-    }
     oci = {
       source  = "oracle/oci"
       version = "~> 7.0"

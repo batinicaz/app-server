@@ -58,6 +58,12 @@ variable "oci_user_id" {
   type        = string
 }
 
+variable "private_key_pem" {
+  description = "The base64 encoded private key pem for the TLS certificate used on the load balancer"
+  type        = string
+  sensitive   = true
+}
+
 variable "services" {
   description = "The configuration of the different services running on the app server instance"
   type = map(object({
