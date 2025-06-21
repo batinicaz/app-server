@@ -25,10 +25,6 @@ data "oci_core_images" "app_server_latest" {
   }
 }
 
-data "hcp_vault_secrets_app" "app_server" {
-  app_name = "app-server"
-}
-
 data "oci_identity_compartment" "terraform" {
   id = data.terraform_remote_state.oci_core.outputs.terraform_identity_compartment_id
 }
